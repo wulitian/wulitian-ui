@@ -19,10 +19,39 @@ export default {
 }
 </script>
 
+
+
 <style scoped lang="scss">
+  /*mixin opacity*/
+  @mixin opacity($num){
+    filter: Alpha(opacity=$num); /* IE */
+    -moz-opacity:$num;    /* 兼容老版本的FF */
+    opacity:$num;    /* 现代浏览器 */
+  }
+  /*mixin backgroundAndColor*/
+  @mixin backgroundAndColor($background,$color) {
+    background-color: $background;
+    color: $color;
+  }
+  /*default button background color*/
+  $defaultBtnbgColor: #FFFFFF;
+  $defaultBtnHoverbgColor: #e6e6e6;
+  $defaultBtnFocusbgColor: #f5f5f5;
+  $defaultBtnActivebgColor: #e6e6e6;
+  /*default button color*/
+  $defaultBtnColor: #000000;
+  $defaultBtnHoverColor: rgba(0, 0, 0, 0.8);
+  $defaultBtnFocusColor: rgba(0, 0, 0, 0.9);
+  $defaultBtnActiveColor: rgba(0, 0, 0, 0.8);
+
+  /*Primary button background color*/
+  $PrimaryBtnbgColor: #409EFF;
+
+  /*Primary button color*/
+  $PrimaryBtnColor: #ffffff;
 
   /*******************************
-              button
+              默认按钮button
   *******************************/
   .wlt.button{
     cursor: pointer;
@@ -44,7 +73,7 @@ export default {
     font-style: normal;
     text-align: center;
     text-decoration: none;
-    border-radius: 0.28571429rem;
+    border-radius: 4px;
     -webkit-box-shadow: 0px 0px 0px 1px transparent inset, 0px 0em 0px 0px rgba(34, 36, 38, 0.15) inset;
     box-shadow: 0px 0px 0px 1px transparent inset, 0px 0em 0px 0px rgba(34, 36, 38, 0.15) inset;
     -webkit-user-select: none;
@@ -59,29 +88,24 @@ export default {
     -webkit-tap-highlight-color: transparent;
     /*hover*/
     &:hover{
-      background-color: #e6e6e6;
-      color: rgba(0, 0, 0, 0.8);
+      @include backgroundAndColor($defaultBtnHoverbgColor,$defaultBtnHoverColor);
     }
     /*focus*/
     &:focus {
-      background-color: #e6e6e6;
-      color: rgba(0, 0, 0, 0.8);
+      @include backgroundAndColor($defaultBtnFocusbgColor,$defaultBtnFocusColor);
     }
     /*active*/
     &:active{
-      background-color: #f5f5f5;
-      color: rgba(0, 0, 0, 0.9);
+      @include backgroundAndColor($defaultBtnActivebgColor,$defaultBtnActiveColor);
     }
 
   }
   .wlt.active.button{
-    background-color: #f5f5f5;
-    color: rgba(0, 0, 0, 0.9);
+    @include backgroundAndColor($defaultBtnActivebgColor,$defaultBtnActiveColor);
   }
   .wlt.disable.button{
-    opacity: 0.7;
-    background-color: rgba(192, 193, 194, 0.5);
-    color: rgba(0, 0, 0, 0.8);
+    @include backgroundAndColor($defaultBtnbgColor,$defaultBtnColor);
+    @include opacity(.5);
     cursor: not-allowed;
   }
   /*******************************
@@ -89,68 +113,28 @@ export default {
   *******************************/
   /* Standard */
   .wlt.primary.button {
-    background-color: #2185D0;
-    color: #FFFFFF;
-    text-shadow: none;
-    background-image: none;
-    -webkit-box-shadow: 0px 0em 0px 0px rgba(34, 36, 38, 0.15) inset;
-    box-shadow: 0px 0em 0px 0px rgba(34, 36, 38, 0.15) inset;
+    @include backgroundAndColor($PrimaryBtnbgColor,$PrimaryBtnColor);
+    border-color: #409EFF;
     &:hover {
-      background-color: #1678c2;
+      background-color: #4999ec;
       color: #FFFFFF;
-      text-shadow: none;
+      border-color: #409EFF;
     }
     &:focus {
-      background-color: #0d71bb;
+      background-color: #56a9ff;
       color: #FFFFFF;
-      text-shadow: none;
+      border-color: #56a9ff;
     }
     &:active {
-      background-color: #1a69a4;
+      background-color: #4999ec;
       color: #FFFFFF;
-      text-shadow: none;
-    }
-    .active.button{
-      &:active {
-        background-color: #1279c6;
-        color: #FFFFFF;
-        text-shadow: none;
-      }
+      border-color: #409EFF;
     }
   }
   .wlt.primary.active.button{
     background-color: #1279c6;
     color: #FFFFFF;
     text-shadow: none;
-  }
-  .wlt.primary.buttons{
-    .button{
-      &:hover{
-        background-color: #1678c2;
-        color: #FFFFFF;
-        text-shadow: none;
-      }
-      &:focus{
-        background-color: #0d71bb;
-        color: #FFFFFF;
-        text-shadow: none;
-      }
-      &:active{
-        background-color: #1a69a4;
-        color: #FFFFFF;
-        text-shadow: none;
-      }
-    }
-    .active.button{
-      background-color: #1279c6;
-      color: #FFFFFF;
-      text-shadow: none;
-      &:active{
-        background-color: #1279c6;
-        color: #FFFFFF;
-        text-shadow: none;
-      }
-    }
   }
   /* Basic */
   .wlt.basic.primary.button{
@@ -292,7 +276,7 @@ export default {
   .wlt.gradient.button{
     /*IE 6 7 8*/
     filter: progid:DXImageTransform.Microsoft.Gradient(gradientType=0, startColorStr=#AC07BD, endColorStr=#f6f6f8);
-   /* IE 10 */
+    /* IE 10 */
     background: -ms-linear-gradient(top, #AC07BD, #f6f6f8);
     /*火狐*/
     background:-moz-linear-gradient(top, #AC07BD, #f6f6f8);
