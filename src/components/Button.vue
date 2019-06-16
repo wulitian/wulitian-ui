@@ -1,11 +1,26 @@
 <template>
-  <div style="text-align: center;margin-top: 100px">
-    <button class="wlt button">按钮</button>
-    <button class="wlt active button">按钮</button>
-    <button class="wlt disable button">按钮</button>
-    <button class="wlt primary button">按钮</button>
-    <button class="wlt active primary button">按钮</button>
-    <button class="wlt gradient button">按钮</button>
+  <div>
+    <div style="text-align: center;margin-top: 5px">
+      <button class="wlt button">按钮</button>
+      <button class="wlt focus button">按钮</button>
+      <button class="wlt active button">按钮</button>
+      <button class="wlt button" disabled>按钮</button>
+      <button class="wlt disabled button">按钮</button>
+    </div>
+    <div style="text-align: center;margin-top: 5px">
+      <button class="wlt primary button">按钮</button>
+      <button class="wlt success button">按钮</button>
+      <button class="wlt warning button">按钮</button>
+      <button class="wlt danger button">按钮</button>
+      <button class="wlt info button">按钮</button>
+    </div>
+    <div style="text-align: center;margin-top: 5px">
+      <button class="wlt primary mini button">按钮</button>
+      <button class="wlt success small button">按钮</button>
+      <button class="wlt warning medium button">按钮</button>
+      <button class="wlt danger button">按钮</button>
+    </div>
+    <!--<button class="wlt gradient button">按钮</button>-->
   </div>
 </template>
 
@@ -22,36 +37,79 @@ export default {
 
 
 <style scoped lang="scss">
-  /*mixin opacity*/
-  @mixin opacity($num){
-    filter: Alpha(opacity=$num); /* IE */
-    -moz-opacity:$num;    /* 兼容老版本的FF */
-    opacity:$num;    /* 现代浏览器 */
+  // Button sizes
+  @mixin button-size($padding-vertical, $padding-horizontal, $font-size, $line-height, $border-radius) {
+    padding: $padding-vertical $padding-horizontal;
+    font-size: $font-size;
+    line-height: $line-height;
+    border-radius: $border-radius;
   }
-  /*mixin backgroundAndColor*/
-  @mixin backgroundAndColor($background,$color) {
-    background-color: $background;
+  @mixin button-variant($color, $background, $border) {
     color: $color;
+    background-color: $background;
+    border-color: $border;
+    &:focus,
+    &.focus {
+      color: $color;
+      background-color: darken($background, 10%);
+      border-color: darken($border, 5%);
+    }
+    &:hover {
+      color: $color;
+      background-color: darken($background, 10%);
+      border-color: darken($border, 10%);
+    }
+    &:active,
+    &.active,
+    .open > &.dropdown-toggle {
+      color: $color;
+      background-color: darken($background, 10%);
+      border-color: darken($border, 15%);
+      background-image: none;
+      &:hover,
+      &:focus,
+      &.focus {
+        color: $color;
+        background-color: darken($background, 17%);
+        border-color: darken($border, 25%);
+      }
+    }
+    &.disabled,
+    &[disabled],
+    fieldset[disabled] & {
+      &:hover,
+      &:focus,
+      &.focus {
+        background-color: $background;
+        border-color: $border;
+        cursor: not-allowed;
+      }
+    }
+    .badge {
+      color: $background;
+      background-color: $color;
+    }
   }
-  /*default button background color*/
-  $defaultBtnbgColor: #FFFFFF;
-  $defaultBtnHoverbgColor: #e6e6e6;
-  $defaultBtnFocusbgColor: #f5f5f5;
-  $defaultBtnActivebgColor: #e6e6e6;
-  /*default button color*/
-  $defaultBtnColor: #000000;
-  $defaultBtnHoverColor: rgba(0, 0, 0, 0.8);
-  $defaultBtnFocusColor: rgba(0, 0, 0, 0.9);
-  $defaultBtnActiveColor: rgba(0, 0, 0, 0.8);
-
-  /*Primary button background color*/
-  $PrimaryBtnbgColor: #409EFF;
-
-  /*Primary button color*/
-  $PrimaryBtnColor: #ffffff;
-
+  $defaultBtnColor: #606266;
+  $defaultBtnBgColor: #FFFFFF;
+  $defaultBtnBorderColor: #DCDFE6;
+  $primaryBtnColor: #FFFFFF;
+  $primaryBtnBgColor: #409EFF;
+  $primaryBtnBorderColor: #409EFF;
+  $successBtnColor: #FFFFFF;
+  $successBtnBgColor: #67C23A;
+  $successBtnBorderColor: #67C23A;
+  $warningBtnColor: #FFFFFF;
+  $warningBtnBgColor: #E6A23C;
+  $warningBtnBorderColor: #E6A23C;
+  $dangerBtnColor: #FFFFFF;
+  $dangerBtnBgColor: #F56C6C;
+  $dangerBtnBorderColor: #F56C6C;
+  $infoBtnColor: #FFFFFF;
+  $infoBtnBgColor: #909399;
+  $infoBtnBorderColor: #909399;
   /*******************************
-              默认按钮button
+              default button
   *******************************/
   .wlt.button{
     cursor: pointer;
@@ -86,193 +144,72 @@ export default {
     transition: opacity 0.1s ease, background-color 0.1s ease, color 0.1s ease, box-shadow 0.1s ease, background 0.1s ease, -webkit-box-shadow 0.1s ease;
     will-change: '';
     -webkit-tap-highlight-color: transparent;
-    /*hover*/
-    &:hover{
-      @include backgroundAndColor($defaultBtnHoverbgColor,$defaultBtnHoverColor);
-    }
-    /*focus*/
-    &:focus {
-      @include backgroundAndColor($defaultBtnFocusbgColor,$defaultBtnFocusColor);
-    }
-    /*active*/
-    &:active{
-      @include backgroundAndColor($defaultBtnActivebgColor,$defaultBtnActiveColor);
-    }
-
-  }
-  .wlt.active.button{
-    @include backgroundAndColor($defaultBtnActivebgColor,$defaultBtnActiveColor);
-  }
-  .wlt.disable.button{
-    @include backgroundAndColor($defaultBtnbgColor,$defaultBtnColor);
-    @include opacity(.5);
-    cursor: not-allowed;
+    @include button-variant($defaultBtnColor,$defaultBtnBgColor,$defaultBtnBorderColor);
   }
   /*******************************
-              primary
+              primary button
   *******************************/
-  /* Standard */
-  .wlt.primary.button {
-    @include backgroundAndColor($PrimaryBtnbgColor,$PrimaryBtnColor);
-    border-color: #409EFF;
-    &:hover {
-      background-color: #4999ec;
-      color: #FFFFFF;
-      border-color: #409EFF;
-    }
-    &:focus {
-      background-color: #56a9ff;
-      color: #FFFFFF;
-      border-color: #56a9ff;
-    }
-    &:active {
-      background-color: #4999ec;
-      color: #FFFFFF;
-      border-color: #409EFF;
-    }
+  .wlt.primary.button{
+    @include button-variant($primaryBtnColor,$primaryBtnBgColor,$primaryBtnBorderColor);
   }
-  .wlt.primary.active.button{
-    background-color: #1279c6;
-    color: #FFFFFF;
-    text-shadow: none;
+  /*******************************
+              success button
+  *******************************/
+  .wlt.success.button{
+    @include button-variant($successBtnColor,$successBtnBgColor,$successBtnBorderColor);
   }
-  /* Basic */
-  .wlt.basic.primary.button{
-    -webkit-box-shadow: 0px 0px 0px 1px #2185D0 inset !important;
-    box-shadow: 0px 0px 0px 1px #2185D0 inset !important;
-    color: #2185D0 !important;
-    &:hover{
-      background: transparent !important;
-      -webkit-box-shadow: 0px 0px 0px 1px #1678c2 inset !important;
-      box-shadow: 0px 0px 0px 1px #1678c2 inset !important;
-      color: #1678c2 !important;
-    }
-    &:focus{
-      background: transparent !important;
-      -webkit-box-shadow: 0px 0px 0px 1px #0d71bb inset !important;
-      box-shadow: 0px 0px 0px 1px #0d71bb inset !important;
-      color: #1678c2 !important;
-    }
-    &:active{
-      -webkit-box-shadow: 0px 0px 0px 1px #1a69a4 inset !important;
-      box-shadow: 0px 0px 0px 1px #1a69a4 inset !important;
-      color: #1a69a4 !important;
-    }
+  /*******************************
+              warning button
+  *******************************/
+  .wlt.warning.button{
+    @include button-variant($warningBtnColor,$warningBtnBgColor,$warningBtnBorderColor);
   }
-  .wlt.basic.primary.buttons{
-    .button{
-      -webkit-box-shadow: 0px 0px 0px 1px #2185D0 inset !important;
-      box-shadow: 0px 0px 0px 1px #2185D0 inset !important;
-      color: #2185D0 !important;
-      &:hover {
-        background: transparent !important;
-        -webkit-box-shadow: 0px 0px 0px 1px #1678c2 inset !important;
-        box-shadow: 0px 0px 0px 1px #1678c2 inset !important;
-        color: #1678c2 !important;
-      }
-      &:focus{
-        background: transparent !important;
-        -webkit-box-shadow: 0px 0px 0px 1px #0d71bb inset !important;
-        box-shadow: 0px 0px 0px 1px #0d71bb inset !important;
-        color: #1678c2 !important;
-      }
-      &:active {
-        -webkit-box-shadow: 0px 0px 0px 1px #1a69a4 inset !important;
-        box-shadow: 0px 0px 0px 1px #1a69a4 inset !important;
-        color: #1a69a4 !important;
-      }
-    }
-    .active.button{
-      background: transparent !important;
-      -webkit-box-shadow: 0px 0px 0px 1px #1279c6 inset !important;
-      box-shadow: 0px 0px 0px 1px #1279c6 inset !important;
-      color: #1a69a4 !important;
-    }
+  /*******************************
+              danger button
+  *******************************/
+  .wlt.danger.button{
+    @include button-variant($dangerBtnColor,$dangerBtnBgColor,$dangerBtnBorderColor);
   }
-  .wlt.basic.primary.active.button {
-    background: transparent !important;
-    -webkit-box-shadow: 0px 0px 0px 1px #1279c6 inset !important;
-    box-shadow: 0px 0px 0px 1px #1279c6 inset !important;
-    color: #1a69a4 !important;
+  /*******************************
+              info button
+  *******************************/
+  .wlt.info.button{
+    @include button-variant($infoBtnColor,$infoBtnBgColor,$infoBtnBorderColor);
   }
-  .wlt.buttons:not(.vertical) > .basic.primary.button:not(:first-child) {
-    margin-left: -1px;
+  /*******************************
+              mini button
+  *******************************/
+  .wlt.mini.button,
+  .wlt.primary.mini.button,
+  .wlt.success.mini.button,
+  .wlt.warning.mini.button,
+  .wlt.danger.mini.button,
+  .wlt.info.mini.button {
+    @include button-size(7px,15px,12px,12px,3px);
+  }
+  /*******************************
+                small button
+    *******************************/
+  .wlt.small.button,
+  .wlt.primary.small.button,
+  .wlt.success.small.button,
+  .wlt.warning.small.button,
+  .wlt.danger.small.button,
+  .wlt.info.small.button {
+    @include button-size(9px,15px,12px,12px,3px);
+  }
+  /*******************************
+              medium button
+  *******************************/
+  .wlt.medium.button,
+  .wlt.primary.medium.button,
+  .wlt.success.medium.button,
+  .wlt.warning.medium.button,
+  .wlt.danger.medium.button,
+  .wlt.info.medium.button {
+    @include button-size(10px,20px,14px,14px,4px);
   }
 
-  /* Inverted */
-  .wlt.inverted.primary.buttons .button,
-  .wlt.inverted.primary.button {
-    background-color: transparent;
-    -webkit-box-shadow: 0px 0px 0px 2px #54C8FF inset !important;
-    box-shadow: 0px 0px 0px 2px #54C8FF inset !important;
-    color: #54C8FF;
-  }
-  .wlt.inverted.primary.buttons .button:hover,
-  .wlt.inverted.primary.button:hover,
-  .wlt.inverted.primary.buttons .button:focus,
-  .wlt.inverted.primary.button:focus,
-  .wlt.inverted.primary.buttons .button.active,
-  .wlt.inverted.primary.button.active,
-  .wlt.inverted.primary.buttons .button:active,
-  .wlt.inverted.primary.button:active {
-    -webkit-box-shadow: none !important;
-    box-shadow: none !important;
-    color: #FFFFFF;
-  }
-  .wlt.inverted.primary.buttons .button:hover,
-  .wlt.inverted.primary.button:hover {
-    background-color: #3ac0ff;
-  }
-  .wlt.inverted.primary.buttons .button:focus,
-  .wlt.inverted.primary.button:focus {
-    background-color: #2bbbff;
-  }
-  .wlt.inverted.primary.buttons .active.button,
-  .wlt.inverted.primary.active.button {
-    background-color: #3ac0ff;
-  }
-  .wlt.inverted.primary.buttons .button:active,
-  .wlt.inverted.primary.button:active {
-    background-color: #21b8ff;
-  }
-
-  /* Inverted Basic */
-  .wlt.inverted.primary.basic.buttons .button,
-  .wlt.inverted.primary.buttons .basic.button,
-  .wlt.inverted.primary.basic.button {
-    background-color: transparent;
-    -webkit-box-shadow: 0px 0px 0px 2px rgba(255, 255, 255, 0.5) inset !important;
-    box-shadow: 0px 0px 0px 2px rgba(255, 255, 255, 0.5) inset !important;
-    color: #FFFFFF !important;
-  }
-  .wlt.inverted.primary.basic.buttons .button:hover,
-  .wlt.inverted.primary.buttons .basic.button:hover,
-  .wlt.inverted.primary.basic.button:hover {
-    -webkit-box-shadow: 0px 0px 0px 2px #3ac0ff inset !important;
-    box-shadow: 0px 0px 0px 2px #3ac0ff inset !important;
-    color: #54C8FF !important;
-  }
-  .wlt.inverted.primary.basic.buttons .button:focus,
-  .wlt.inverted.primary.basic.buttons .button:focus,
-  .wlt.inverted.primary.basic.button:focus {
-    -webkit-box-shadow: 0px 0px 0px 2px #2bbbff inset !important;
-    box-shadow: 0px 0px 0px 2px #2bbbff inset !important;
-    color: #54C8FF !important;
-  }
-  .wlt.inverted.primary.basic.buttons .active.button,
-  .wlt.inverted.primary.buttons .basic.active.button,
-  .wlt.inverted.primary.basic.active.button {
-    -webkit-box-shadow: 0px 0px 0px 2px #3ac0ff inset !important;
-    box-shadow: 0px 0px 0px 2px #3ac0ff inset !important;
-    color: #54C8FF !important;
-  }
-  .wlt.inverted.primary.basic.buttons .button:active,
-  .wlt.inverted.primary.buttons .basic.button:active,
-  .wlt.inverted.primary.basic.button:active {
-    -webkit-box-shadow: 0px 0px 0px 2px #21b8ff inset !important;
-    box-shadow: 0px 0px 0px 2px #21b8ff inset !important;
-    color: #54C8FF !important;
-  }
   .wlt.gradient.button{
     /*IE 6 7 8*/
     filter: progid:DXImageTransform.Microsoft.Gradient(gradientType=0, startColorStr=#AC07BD, endColorStr=#f6f6f8);
