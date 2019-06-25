@@ -1,5 +1,5 @@
 /**
- * Bootstrap v3.3.7 (http://www.wulitian.com)
+ * reset (http://www.wulitian.com)
  * Licensed under MIT (https://github.com/wulitian/master/LICENSE)
  * 页面初始化清除浏览器默认样式应用wulitian自认为的样式
  */
@@ -72,7 +72,7 @@ menu {
  */
 
 audio,
-video,{
+video{
   display: inline-block;
 }
 
